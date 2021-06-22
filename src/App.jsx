@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { Grid, Backdrop, CircularProgress, Container } from '@material-ui/core';
+import { Backdrop, CircularProgress, Container } from '@material-ui/core';
 import { Redirect, Router, Switch, Route } from 'react-router-dom';
 import { history } from 'shared/constants/history';
 
