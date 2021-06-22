@@ -84,6 +84,24 @@ describe('Films test', () => {
     expect(selectors.error(/Email is invalid/i)).toBeInTheDocument();
   });
 
+  it('При отправке форма отправляется на сервер', async () => {
+    const submitMock = jest.fn();
+    const watchFetch = submitFormFx.watch(submitMock);
+    userEvent.type(selectors.userNameInput(), 'Peter');
+    userEvent.type(selectors.emailInput(), 'Peter@mail.ru');
+    userEvent.type(selectors.reviewInput(), 'Ревью');
+
+    await act(async () => {
+      userEvent.click(selectors.submitButton());
+    });
+    expect(submitMock).toHaveBeenCalledWith({
+      userName: 'Peter',
+      email: 'Peter@mail.ru',
+      review: 'Ревью',
+    });
+    watchFetch.unsubscribe();
+  });
+
   it('При успешной отправке отображается модальное окно с информацией', async () => {
     userEvent.type(selectors.userNameInput(), 'Peter');
     userEvent.type(selectors.emailInput(), 'Peter@mail.ru');
@@ -91,6 +109,7 @@ describe('Films test', () => {
     await act(async () => {
       userEvent.click(selectors.submitButton());
     });
+
     expect(selectors.successMessage()).toBeInTheDocument();
   });
 
